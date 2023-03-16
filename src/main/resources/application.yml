@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      host: 192.168.153.128
+      port: 27017
+      authentication-database: admin
+      username: jglee
+      password: dlwjdrn13Q
+      database: mongo
+      # url: mongodb://192.168.153.128:27017/mongo
