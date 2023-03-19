@@ -20,4 +20,14 @@ data class Review (
 
     @Field(name="status")
     var status: String? = null
-)
+) {
+    companion object {
+        fun getTempDocument() : Review {
+            val review = Review();
+            review.id = (Math.random() * 1000 % 100).toInt().toString();
+            review.reviewNo = (Math.random() * 1000).toInt()
+            review.status = "AV"
+            return review;
+        }
+    }
+}

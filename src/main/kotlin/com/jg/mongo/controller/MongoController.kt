@@ -2,9 +2,7 @@ package com.jg.mongo.controller
 
 import com.jg.mongo.model.Review
 import com.jg.mongo.service.MongodbService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/mongo")
@@ -14,17 +12,16 @@ class MongoController(
 
     @GetMapping("/add/review")
     fun addReview() : Review {
-        var review = Review();
-
-        review.id = Math.random().toString()
-        review.reviewNo = (Math.random()*1000).toInt()
-        review.status = "AV"
-
-        return mongodbService.addReview(review)
+        return mongodbService.addReview(Review.getTempDocument())
     }
 
     @GetMapping("/reviews")
     fun getReviews() : MutableList<Review>{
-        return mongodbService.getReview()
+        return mongodbService.getReviews()
+    }
+
+    @GetMapping("/review/{id}")
+    fun getReview(@PathVariable id: String) : Review{
+        return mongodbService.getReview(id)
     }
 }
