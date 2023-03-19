@@ -24,4 +24,9 @@ class MongoController(
     fun getReview(@PathVariable id: String) : Review{
         return mongodbService.getReview(id)
     }
+
+    @GetMapping("/review/status/{status}")
+    fun getReviewFindStatus(@PathVariable status: String) : MutableList<Review> {
+        return mongodbService.getReviewFindStatus(status)
+    }
 }
