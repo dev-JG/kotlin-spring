@@ -11,3 +11,7 @@ spring:
       password: dlwjdrn13Q
       database: mongo
       # url: mongodb://192.168.153.128:27017/mongo
+
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG
