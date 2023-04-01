@@ -11,7 +11,17 @@ spring:
       password: dlwjdrn13Q
       database: mongo
       # url: mongodb://192.168.153.128:27017/mongo
+  redis:
+    host: 192.168.153.128
+    port: 6379
+    password: dlwjdrn13Q
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
 
 logging:
   level:
     org.springframework.data.mongodb: DEBUG
+    org.springframework.data.redis.*: DEBUG
