@@ -27,4 +27,14 @@ class RedisController(
     fun getMembers() : MutableList<Member> {
         return redisService.getMembers()
     }
+
+    @GetMapping("/add/template")
+    fun addMemberTemplate() : String {
+        return redisService.addMemberTemplate(Member.getTempMember())
+    }
+
+    @GetMapping("/template/{id}")
+    fun getMemberTemplate(@PathVariable(value = "id") id: String) : Member? {
+        return redisService.getMemberTemplate(id)
+    }
 }

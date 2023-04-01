@@ -32,7 +32,7 @@ class RedisConfig (
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, String>? {
+    fun redisTemplate(): RedisTemplate<String, String> {
         val redisTemplate = RedisTemplate<String, String>()
         redisTemplate.keySerializer = StringRedisSerializer()
         redisTemplate.valueSerializer = StringRedisSerializer()
