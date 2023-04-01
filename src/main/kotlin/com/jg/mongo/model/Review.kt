@@ -3,6 +3,7 @@ package com.jg.mongo.model
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
+import java.io.Serializable
 import java.time.LocalDateTime
 
 @Document(collection = "review")
@@ -20,7 +21,7 @@ data class Review (
 
     @Field(name="status")
     var status: String? = null
-) {
+) : Serializable {
     companion object {
         fun getTempDocument() : Review {
             val review = Review();

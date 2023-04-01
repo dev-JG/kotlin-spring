@@ -3,6 +3,7 @@ package com.jg.redis.model
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import org.springframework.data.redis.core.TimeToLive
+import java.io.Serializable
 
 @RedisHash("member")
 data class Member (
@@ -11,8 +12,9 @@ data class Member (
     var name : String? = null,
     var age: Int? = null,
     @TimeToLive
-    val expiration : Long = 60
-) {
+    val ttl : Long = 60
+) : Serializable {
+
     companion object {
         fun getTempMember() : Member {
             val member = Member();
