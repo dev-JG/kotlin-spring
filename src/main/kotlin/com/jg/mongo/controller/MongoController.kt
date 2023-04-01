@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/mongo")
-class MongoController(
+class MongoController (
     var mongodbService: MongodbService
 ) {
 

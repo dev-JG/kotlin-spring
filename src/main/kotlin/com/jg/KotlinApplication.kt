@@ -1,11 +1,11 @@
-package com.jg.mongo
+package com.jg
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MongoApplication
+class KotlinApplication
 
 fun main(args: Array<String>) {
-    runApplication<MongoApplication>(*args)
+    runApplication<KotlinApplication>(*args)
 }
