@@ -1,6 +1,7 @@
 package com.jg.redis.controller
 
 import com.jg.redis.model.Member
+import com.jg.redis.model.User
 import com.jg.redis.service.RedisService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -28,13 +29,13 @@ class RedisController(
         return redisService.getMembers()
     }
 
-    @GetMapping("/add/template")
-    fun addMemberTemplate() : String {
-        return redisService.addMemberTemplate(Member.getTempMember())
+    @GetMapping("/add/user")
+    fun addUser() : String {
+        return redisService.addUser(User.getTempUser())
     }
 
-    @GetMapping("/template/{id}")
-    fun getMemberTemplate(@PathVariable(value = "id") id: String) : Member? {
-        return redisService.getMemberTemplate(id)
+    @GetMapping("/user/{id}")
+    fun getUser(@PathVariable(value = "id") id: String) : User? {
+        return redisService.getUser(id)
     }
 }

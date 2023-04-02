@@ -4,25 +4,24 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.jg.redis.model.Member
+import com.jg.redis.model.User
 import com.jg.redis.repository.RedisRepository
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.Random
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 
 @Service
 class RedisService (
-    var redisRepository: RedisRepository
+    var redisRepository: RedisRepository,
+    var redisTemplate: RedisTemplate<String, String>
 ){
     private val log = LoggerFactory.getLogger(javaClass)
-    val PRE_FIX = "member:"
     val objectMapper = ObjectMapper().registerKotlinModule()
-    @Autowired
-    lateinit var redisTemplate: RedisTemplate<String, String>
+    val PRE_FIX_USER = "user:"
 
     fun addMember(member: Member) : Member {
         redisRepository.save(member)
@@ -44,27 +43,28 @@ class RedisService (
         return members.toMutableList()
     }
 
-    fun addMemberTemplate(member: Member): String {
+    fun addUser(user: User): String {
         val valueOperations = redisTemplate.opsForValue()
-        var jsonData  = objectMapper.writeValueAsString(member)
-        valueOperations.set(PRE_FIX + member.id, jsonData , 60L, TimeUnit.MINUTES)
+        val jsonData  = objectMapper.writeValueAsString(user)
+
+        valueOperations.set(PRE_FIX_USER + user.id, jsonData , 60L, TimeUnit.MINUTES)
         log.info("##### addMemberTemplate = {}", jsonData )
 
         return jsonData
     }
 
-    fun getMemberTemplate(id: String): Member? {
-        val valueOperations = redisTemplate.opsForValue()
-        val expireTime = redisTemplate.getExpire(PRE_FIX + id)
-        val jsonData  = valueOperations.get(PRE_FIX + id)
-        jsonData ?.let {
-            val member = objectMapper.readValue<Member>(it)
-            CompletableFuture.runAsync {
-                cacheStampede(PRE_FIX + id, expireTime)
-            }
-            log.info("##### getMemberTemplate expireTime = {}, member = {}", expireTime, member)
+    fun getUser(id: String): User? {
+        val jsonData = redisTemplate.opsForValue().get(PRE_FIX_USER + id)
+        val expireTime = redisTemplate.getExpire(PRE_FIX_USER + id)
 
-            return member
+        jsonData?.let {
+            val user = objectMapper.readValue<User>(it)
+            CompletableFuture.runAsync {
+                cacheStampede(PRE_FIX_USER + id, expireTime)
+            }
+            log.info("##### getMemberTemplate expireTime = {}, member = {}", expireTime, user)
+
+            return user
         }
 
         return null
