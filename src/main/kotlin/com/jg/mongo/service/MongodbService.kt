@@ -19,6 +19,7 @@ class MongodbService (
 
     fun addReview(mongoDocument: Review) : Review {
         log.info("##### addReview")
+        println("1572 test")
         return mongodbRepository.save(mongoDocument)
     }
 
